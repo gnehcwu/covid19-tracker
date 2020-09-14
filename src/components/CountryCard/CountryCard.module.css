@@ -1,16 +1,11 @@
-.container:not(:last-child) {
-  margin-bottom: 12px;
-}
-
 .container {
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .card {
   display: flex;
-  height: 35px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
@@ -21,7 +16,6 @@
   user-select: none;
   position: relative;
   flex: 1;
-  align-items: center;
 }
 
 .card:focus,
@@ -57,6 +51,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   flex: 1;
+  margin-bottom: 4px;
 }
 
 .card.selected .title {
@@ -72,5 +67,11 @@
 }
 
 .flag {
-  margin-right: 12px;
+  margin-right: 8px;
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+.name {
+  font-size: 14px;
 }

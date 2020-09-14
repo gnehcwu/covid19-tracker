@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './GlobalSummary.module.css'
+import CountUp from 'react-countup';
 
-export default function GlobalSummary() {
+export default function GlobalSummary({ latestInfo = {} }) {
   return (
     <div className={styles.summary}>
       <div className={styles.header}>
@@ -9,25 +10,35 @@ export default function GlobalSummary() {
         <div className={styles.lastUpdate}>Updated 8 mins ago</div>
       </div>
       <div className={styles.infoConfirmed}>
-        <div className={styles.confirmed}>28797422</div>
-        <div className={styles.deltaConfirmed}>+ 266518</div>
+        <div className={styles.confirmed}>
+          <CountUp start={0} end={latestInfo.confirmed || 0} duration={2} separator="," />
+        </div>
+        <div className={styles.deltaConfirmed}>
+          + <CountUp start={0} end={latestInfo.new_confirmed || 0} duration={2} separator="," />
+        </div>
       </div>
       <div className={styles.infoDetail}>
-        <h2 className={styles.info}>
+        <div className={styles.info}>
           <div className={styles.indicatorActive}></div>
-          <div className={styles.description}>Active cases</div>
-          <div className={styles.total}>19,491,050</div>
-        </h2>
-        <h2 className={styles.info}>
+          <div className={styles.description}>Active cases:</div>
+          <div className={styles.case}>
+            <CountUp start={0} end={latestInfo.active || 0} duration={2} separator="," />
+          </div>
+        </div>
+        <div className={styles.info}>
           <div className={styles.indicatorRecovered}></div>
-          <div className={styles.description}>Recovered cases</div>
-          <div className={styles.total}>19,491,050</div>
-        </h2>
-        <h2 className={styles.info}>
+          <div className={styles.description}>Recovered cases:</div>
+          <div className={styles.case}>
+            <CountUp start={0} end={latestInfo.recovered || 0} duration={2} separator="," />
+          </div>
+        </div>
+        <div className={styles.info}>
           <div className={styles.indicatorFatal}></div>
-          <div className={styles.description}>Fatal cases</div>
-          <div className={styles.total}>19,491,050</div>
-        </h2>
+          <div className={styles.description}>Fatal cases:</div>
+          <div className={styles.case}>
+            <CountUp start={0} end={latestInfo.deaths || 0} duration={2} separator="," />
+          </div>
+        </div>
       </div>
     </div>
   )

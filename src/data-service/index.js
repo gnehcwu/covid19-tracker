@@ -1,13 +1,13 @@
 import getCountryFlag from './countryFlag'
 
-const BASE_URL = 'https://corona-api.com/'
+const BASE_URL = 'https://corona-api.com'
 
 export const getAllCountries = async () => {
   const destination = `${BASE_URL}/countries`
 
   try {
     const res = await fetch(destination)
-    const data = res.json()
+    const { data } = await res.json()
     return data.map(item => {
       return {
         name: item.name,
@@ -21,18 +21,20 @@ export const getAllCountries = async () => {
         deathRate: item.latest_data.calculated.death_rate
       }
     })
+      .filter(item => item.confirmed > 0)
+      .sort((item1, item2) => item2.confirmed - item1.confirmed)
   } catch (error) {
     return []
   }
 }
 
 export const getGlobalTimeline = async () => {
-  const destination = `${BASE_URL}/tmeline`;
+  const destination = `${BASE_URL}/timeline`;
 
   try {
     const res = await fetch(destination)
-    const { data: timeline } = res.json();
-    return timeline;
+    const { data } = await res.json();
+    return data;
   } catch (error) {
     return [];
   }
@@ -43,8 +45,8 @@ export const getTimelineByCountry = async (slug) => {
 
   try {
     const res = await fetch(destination)
-    const { data: { timeline } } = res.json()
-    return timeline
+    const { data } = await res.json()
+    return data
   } catch (error) {
     return {}
   }

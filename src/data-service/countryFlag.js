@@ -1,4 +1,4 @@
-export const getCountryFlag = (countryCode) => {
+const getCountryFlag = (countryCode) => {
   // return '🌏' for non-valid country code
   if (!countryCode || countryCode.length !== 2) return '🌏';
 
@@ -10,3 +10,5 @@ export const getCountryFlag = (countryCode) => {
 
   return String.fromCodePoint(firstChar) + String.fromCodePoint(secondChar);
 }
+
+export default getCountryFlag

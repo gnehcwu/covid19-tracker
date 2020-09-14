@@ -6,13 +6,12 @@
   display: flex;
   flex-direction: column;
   max-height: 100%;
-  border-bottom: #ddd 1px solid;
   color: #333;
 }
 
 .title {
-  margin-bottom: 0px;
-  font-size: 16px;
+  margin: 0px;
+  font-size: 22px;
   line-height: 22px;
   font-weight: 600;
 }
@@ -37,19 +36,22 @@
 }
 
 .deltaConfirmed {
-  color: #666;
-  border-radius: 4px;
+  color: #767676;
+  border-radius: 22px;
   font-size: 13px;
   line-height: 22px;
   padding: 4px 8px;
   margin-left: 8px;
   text-align: right;
-  background-color: #f5f5f5;
-  font-weight: 600;
+  background-color: #f4c363;
+  font-weight: 700;
 }
 
 .infoDetail {
+  padding-top: 12px;
   padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .info:first-child {
@@ -57,13 +59,19 @@
 }
 
 .info {
-  display: grid;
+  display: flex;
   padding-top: 16px;
-  grid-template-columns: 8px auto min-content;
+  grid-template-columns: 8px 20px min-content;
   align-items: center;
   grid-gap: 16px 8px;
-  font-size: 13px;
   line-height: 20px;
+  margin-right: 36px;
+}
+
+.description {
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .color {
@@ -87,12 +95,15 @@
   background: #767676;
 }
 
-.total {
+.case {
   position: relative;
   color: #767676;
+  margin-left: 16px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.total::after {
+.case::after {
   content: '';
   display: block;
   position: absolute;
@@ -103,19 +114,19 @@
   transition: all cubic-bezier(0.3, 0.55, 0.1, 1) 0.7s;
 }
 
-.total:hover::after {
+.case:hover::after {
   height: 8px;
   opacity: 0.3;
 }
 
-.indicatorActive ~ .total::after {
+.indicatorActive ~ .case::after {
   background: #f4c363;
 }
 
-.indicatorRecovered ~ .total::after {
+.indicatorRecovered ~ .case::after {
   background: #60bb69;
 }
 
-.indicatorFatal ~ .total::after {
+.indicatorFatal ~ .case::after {
   background: #767676;
 }

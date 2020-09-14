@@ -1,29 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './CountrySelector.module.css'
 import CountryCard from '../CountryCard/CountryCard'
 
-export default function CountrySelector() {
+export default function CountrySelector({ countries }) {
+  const [filteredCoutries, setFilteredCountries] = useState(countries)
+  const [filter, setFilter] = useState('');
+
+  function filterCountry(event) {
+    setFilter(event.target.value)
+  }
+
+  useEffect(() => {
+    const filtered = countries.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
+    setFilteredCountries(filtered)
+  }, [filter, countries])
+
   return (
     <div className={styles.countrySelector}>
       <div className={styles.sortContainer}>
-        <div className={styles.sortTitle}>Browse</div>
+        <div className={styles.sortTitle}>Filter to a country</div>
       </div>
       <div className={styles.selectArea}>
         <div className={styles.browserLocation}>
-          <input type="text" className={styles.area} placeholder="Filter to a country" autoComplete="off" autoCorrect="off" />
+          <input type="text" value={filter} onChange={filterCountry}
+            className={styles.area}
+            placeholder="Country..."
+            autoComplete="off" autoCorrect="off" />
         </div>
       </div>
       <div className={styles.countryList}>
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
-        <CountryCard />
+        {filteredCoutries.map(country => (
+          <CountryCard key={country.code} country={country} />
+        ))}
       </div>
     </div>
   )
