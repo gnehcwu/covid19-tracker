@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CountrySelector, GlobalSummary } from './components'
 import styles from './App.module.css'
 import logo from './logo.svg'
 import { getAllCountries, getGlobalTimeline, getTimelineByCountry } from './data-service'
+import { Line } from 'react-chartjs-2';
 
 function App() {
   const [global, setGlobal] = useState([]);
   const [countries, setCountries] = useState([])
+  const [chartHeight, setChartHeight] = useState(0)
+  const [chartWidth, setChartWidth] = useState(0)
+  const timelineContainer = useRef(null)
 
   useEffect(() => {
     const fetchGlobal = async () => {
       const data = await getGlobalTimeline()
-      console.log(1111)
-      setGlobal(data)
+      setGlobal(data.reverse())
     }
 
     fetchGlobal()
@@ -21,11 +24,27 @@ function App() {
   useEffect(() => {
     const fetchCoutries = async () => {
       const data = await getAllCountries()
-      console.log(2222, countries)
       setCountries(data)
     }
 
     fetchCoutries();
+  }, [])
+
+  useEffect(() => {
+    setChartHeight(timelineContainer.current.clientHeight)
+  }, [])
+
+  useEffect(() => {
+    function handleResize() {
+      console.log(1111);
+      setChartWidth(timelineContainer.current.clientWidth)
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
   }, [])
 
   return (
@@ -39,12 +58,33 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.summary}>
-          <GlobalSummary latestInfo={global[0]} />
+          <GlobalSummary latestInfo={global[global.length - 1]} />
         </div>
-        <div className={styles.timeline}>
+        <div className={styles.timeline} ref={timelineContainer}>
+          <Line
+            height={chartHeight}
+            width={chartWidth}
+            data={{
+              labels: global.map(({ date }) => date),
+              datasets: [{
+                data: global.map(({ confirmed }) => confirmed),
+                label: 'Infected',
+                borderColor: '#de3700',
+                borderWidth: 1,
+                pointStyle: 'dash'
+              }, {
+                data: global.map(({ deaths }) => deaths),
+                label: 'Deaths',
+                borderColor: '#767676',
+                borderWidth: 1,
+                pointStyle: 'dash'
+              },
+              ],
+            }}
+          />
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

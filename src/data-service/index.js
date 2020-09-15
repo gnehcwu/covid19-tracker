@@ -34,7 +34,7 @@ export const getGlobalTimeline = async () => {
   try {
     const res = await fetch(destination)
     const { data } = await res.json();
-    return data;
+    return data.filter(item => item.date !== '2020-08-17');
   } catch (error) {
     return [];
   }
