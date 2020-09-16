@@ -1,29 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CountrySelector, GlobalSummary } from './components'
+import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import styles from './App.module.css'
 import logo from './logo.svg'
-import { getAllCountries, getGlobalTimeline, getTimelineByCountry } from './data-service'
-import { Line } from 'react-chartjs-2';
+import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFlag } from './data-service'
 
 function App() {
-  const [global, setGlobal] = useState([]);
+  const [selected, setSelected] = useState('global')
+  const [timeline, setTimeline] = useState([])
+  const [summary, setSummary] = useState({})
   const [countries, setCountries] = useState([])
   const [chartHeight, setChartHeight] = useState(0)
   const [chartWidth, setChartWidth] = useState(0)
   const timelineContainer = useRef(null)
 
   useEffect(() => {
-    const fetchGlobal = async () => {
-      const data = await getGlobalTimeline()
-      setGlobal(data.reverse())
+    const fetchTimeline = async () => {
+      if (selected === 'global') {
+        const data = await getGlobalTimeline()
+        setSummary(data[0])
+        setTimeline(data.reverse())
+      } else {
+        const data = await getTimelineByCountry(selected)
+        setSummary(data.timeline[0])
+        setTimeline(data.timeline.reverse())
+      }
     }
 
-    fetchGlobal()
-  }, [])
+    fetchTimeline()
+  }, [selected])
 
   useEffect(() => {
     const fetchCoutries = async () => {
       const data = await getAllCountries()
+      // Put global in the front of country list
+      data.unshift({ name: 'global', code: 'global', flag: getCountryFlag(), confirm: summary.confirmed })
       setCountries(data)
     }
 
@@ -36,7 +46,6 @@ function App() {
 
   useEffect(() => {
     function handleResize() {
-      console.log(1111);
       setChartWidth(timelineContainer.current.clientWidth)
     }
 
@@ -47,6 +56,10 @@ function App() {
     }
   }, [])
 
+  function changeSelected(country) {
+    setSelected(country)
+  }
+
   return (
     <div className={styles.app}>
       <div className={styles.logoArea}>
@@ -54,37 +67,17 @@ function App() {
         <div className={styles.logoTitle}>Covid-19 Tracker</div>
       </div>
       <div className={styles.nav}>
-        <CountrySelector countries={countries} />
+        <CountrySelector countries={countries} changeSelected={changeSelected} selected={selected} />
       </div>
       <div className={styles.content}>
         <div className={styles.summary}>
-          <GlobalSummary latestInfo={global[global.length - 1]} />
+          <GlobalSummary latestInfo={summary} />
         </div>
         <div className={styles.timeline} ref={timelineContainer}>
-          <Line
-            height={chartHeight}
-            width={chartWidth}
-            data={{
-              labels: global.map(({ date }) => date),
-              datasets: [{
-                data: global.map(({ confirmed }) => confirmed),
-                label: 'Infected',
-                borderColor: '#de3700',
-                borderWidth: 1,
-                pointStyle: 'dash'
-              }, {
-                data: global.map(({ deaths }) => deaths),
-                label: 'Deaths',
-                borderColor: '#767676',
-                borderWidth: 1,
-                pointStyle: 'dash'
-              },
-              ],
-            }}
-          />
+          <TimelineChart width={chartWidth} height={chartHeight} timeline={timeline} />
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

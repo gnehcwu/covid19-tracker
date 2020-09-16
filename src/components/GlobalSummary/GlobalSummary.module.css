@@ -115,7 +115,7 @@
 }
 
 .case:hover::after {
-  height: 8px;
+  height: 100%;
   opacity: 0.3;
 }
 

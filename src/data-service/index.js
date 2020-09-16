@@ -51,3 +51,5 @@ export const getTimelineByCountry = async (slug) => {
     return {}
   }
 }
+
+export { default as getCountryFlag } from './countryFlag'
