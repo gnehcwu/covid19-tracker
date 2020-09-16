@@ -1,44 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import styles from './App.module.css'
-import logo from './logo.svg'
+import { ReactComponent as Logo } from './logo.svg'
+import useCovid19Reducer, { ACTIONS } from './state-manage/reducer'
 import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFlag } from './data-service'
 
 function App() {
-  const [selected, setSelected] = useState('global')
-  const [timeline, setTimeline] = useState([])
-  const [summary, setSummary] = useState({})
-  const [countries, setCountries] = useState([])
+  const [trackerData, dispatch] = useCovid19Reducer();
   const [chartHeight, setChartHeight] = useState(0)
   const [chartWidth, setChartWidth] = useState(0)
   const timelineContainer = useRef(null)
 
   useEffect(() => {
     const fetchTimeline = async () => {
-      if (selected === 'global') {
-        const data = await getGlobalTimeline()
-        setSummary(data[0])
-        setTimeline(data.reverse())
+      let data;
+      const { selectedCountry } = trackerData
+      if (selectedCountry === 'Global') {
+        data = await getGlobalTimeline()
       } else {
-        const data = await getTimelineByCountry(selected)
-        setSummary(data.timeline[0])
-        setTimeline(data.timeline.reverse())
+        data = await getTimelineByCountry(selectedCountry)
       }
+      dispatch({ type: ACTIONS.UPDATE_TIMELINE, payload: { summary: data.summary, timeline: data.timeline } })
     }
 
     fetchTimeline()
-  }, [selected])
+  }, [trackerData, dispatch])
 
   useEffect(() => {
     const fetchCoutries = async () => {
       const data = await getAllCountries()
       // Put global in the front of country list
-      data.unshift({ name: 'global', code: 'global', flag: getCountryFlag(), confirm: summary.confirmed })
-      setCountries(data)
+      data.unshift({ name: 'Global', code: 'Global', flag: getCountryFlag(), confirmed: trackerData.summary.confirmed })
+      dispatch({ type: ACTIONS.UPDATE_COUTRIES, payload: { countries: data } });
     }
 
     fetchCoutries();
-  }, [])
+  }, [trackerData.summary.confirmed, dispatch])
 
   useEffect(() => {
     setChartHeight(timelineContainer.current.clientHeight)
@@ -56,25 +53,21 @@ function App() {
     }
   }, [])
 
-  function changeSelected(country) {
-    setSelected(country)
-  }
-
   return (
     <div className={styles.app}>
       <div className={styles.logoArea}>
-        <img src={logo} className={styles.logo} alt="logo" />
+        <Logo fill="#f4c363" stroke="#f4c363" className={styles.logo} alt="logo" />
         <div className={styles.logoTitle}>Covid-19 Tracker</div>
       </div>
       <div className={styles.nav}>
-        <CountrySelector countries={countries} changeSelected={changeSelected} selected={selected} />
+        <CountrySelector countries={trackerData.countries} dispatch={dispatch} selectedCoutry={trackerData.selectedCountry} />
       </div>
       <div className={styles.content}>
         <div className={styles.summary}>
-          <GlobalSummary latestInfo={summary} />
+          <GlobalSummary latestInfo={trackerData.summary} />
         </div>
         <div className={styles.timeline} ref={timelineContainer}>
-          <TimelineChart width={chartWidth} height={chartHeight} timeline={timeline} />
+          <TimelineChart width={chartWidth} height={chartHeight} timeline={trackerData.timeline} />
         </div>
       </div>
     </div>

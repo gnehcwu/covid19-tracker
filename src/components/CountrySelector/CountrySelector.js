@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from './CountrySelector.module.css'
 import CountryCard from '../CountryCard/CountryCard'
 
-export default function CountrySelector({ countries, changeSelected, selected }) {
+export default function CountrySelector({ countries, dispatch, selectedCoutry }) {
   const [filteredCoutries, setFilteredCountries] = useState(countries)
   const [filter, setFilter] = useState('');
 
@@ -30,7 +30,7 @@ export default function CountrySelector({ countries, changeSelected, selected })
       </div>
       <div className={styles.countryList}>
         {filteredCoutries.map(country => (
-          <CountryCard key={country.code} country={country} changeSelected={changeSelected} selected={selected} />
+          <CountryCard key={country.code} country={country} dispatch={dispatch} selectedCoutry={selectedCoutry} />
         ))}
       </div>
     </div>
