@@ -1,10 +1,9 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2';
 
-export default function TimelineChart({ width, height, timeline }) {
+export default function TimelineChart({ timeline, height }) {
   return (
     <Line
-      width={width}
       height={height}
       data={{
         labels: timeline.map(({ date }) => date),

@@ -10,10 +10,9 @@
 }
 
 .title {
-  margin: 0px;
-  font-size: 22px;
-  line-height: 22px;
-  font-weight: 600;
+  text-transform: capitalize;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 .lastUpdate {
@@ -43,7 +42,7 @@
   padding: 4px 8px;
   margin-left: 8px;
   text-align: right;
-  background-color: #f4c363;
+  background-color: #00809d;
   font-weight: 700;
 }
 
@@ -82,7 +81,7 @@
 
 .indicatorActive {
   composes: color;
-  background: #f4c363;
+  background: #f3a738;
 }
 
 .indicatorRecovered {
@@ -111,16 +110,16 @@
   bottom: 1px;
   width: 100%;
   opacity: 0.5;
-  transition: all cubic-bezier(0.3, 0.55, 0.1, 1) 0.7s;
+  transition: all cubic-bezier(0.3, 0.55, 0.1, 1) 0.2s;
 }
 
 .case:hover::after {
-  height: 100%;
+  height: 90%;
   opacity: 0.3;
 }
 
 .indicatorActive ~ .case::after {
-  background: #f4c363;
+  background: #f3a738;
 }
 
 .indicatorRecovered ~ .case::after {

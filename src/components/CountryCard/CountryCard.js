@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { ACTIONS, Covid19Context } from '../../state-manage'
 
 export default function CountryCard({ country }) {
-  const { dispatch, selectedCoutry } = useContext(Covid19Context);
+  const { dispatch, selectedCountry } = useContext(Covid19Context);
 
   function handleClick() {
     dispatch({ type: ACTIONS.SWITCH_COUNTRY, payload: { country: country.code } })
@@ -12,7 +12,7 @@ export default function CountryCard({ country }) {
 
   return (
     <div className={styles.container} onClick={handleClick}>
-      <div className={cx(styles.card, country.code === selectedCoutry && styles.selected)} tabIndex="0">
+      <div className={cx(styles.card, country.code === selectedCountry && styles.selected)} tabIndex="0">
         <div className={styles.title}>
           <span role="img" aria-label="China" className={styles.flag}>{country.flag}</span>
           <span className={styles.name}>{country.name}</span>

@@ -21,12 +21,10 @@ export default function CountrySelector({ countries, selectedCoutry }) {
         <div className={styles.sortTitle}>Filter to a country</div>
       </div>
       <div className={styles.selectArea}>
-        <div className={styles.browserLocation}>
-          <input type="text" value={filter} onChange={filterCountry}
-            className={styles.area}
-            placeholder="Country..."
-            autoComplete="off" autoCorrect="off" />
-        </div>
+        <input type="text" value={filter} onChange={filterCountry}
+          className={styles.search}
+          placeholder="Country..."
+          autoComplete="off" autoCorrect="off" />
       </div>
       <div className={styles.countryList}>
         {filteredCoutries.map(country => (

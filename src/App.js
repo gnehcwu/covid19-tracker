@@ -8,7 +8,6 @@ import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFla
 function App() {
   const [trackerData, dispatch] = useCovid19Reducer();
   const [chartHeight, setChartHeight] = useState(0)
-  const [chartWidth, setChartWidth] = useState(0)
   const timelineContainer = useRef(null)
 
   useEffect(() => {
@@ -40,34 +39,24 @@ function App() {
     setChartHeight(timelineContainer.current.clientHeight)
   }, [])
 
-  useEffect(() => {
-    function handleResize() {
-      setChartWidth(timelineContainer.current.clientWidth)
-    }
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    }
-  }, [])
-
   return (
     <Covid19Context.Provider value={{ dispatch: dispatch, selectedCountry: trackerData.selectedCountry }}>
       <div className={styles.app}>
-        <div className={styles.logoArea}>
-          <Logo fill="#f4c363" stroke="#f4c363" className={styles.logo} alt="logo" />
-          <div className={styles.logoTitle}>Covid-19 Tracker</div>
-        </div>
         <div className={styles.nav}>
-          <CountrySelector countries={trackerData.countries} />
+          <div className={styles.logoArea}>
+            <Logo fill="#00809d" stroke="#00809d" className={styles.logo} alt="logo" />
+            <div className={styles.logoTitle}>Covid-19 Tracker</div>
+          </div>
+          <div className={styles.countrySelectArea}>
+            <CountrySelector countries={trackerData.countries} />
+          </div>
         </div>
         <div className={styles.content}>
           <div className={styles.summary}>
-            <GlobalSummary latestInfo={trackerData.summary} />
+            <GlobalSummary summary={trackerData.summary} />
           </div>
           <div className={styles.timeline} ref={timelineContainer}>
-            <TimelineChart width={chartWidth} height={chartHeight} timeline={trackerData.timeline} />
+            <TimelineChart height={chartHeight} timeline={trackerData.timeline} />
           </div>
         </div>
       </div>

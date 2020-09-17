@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './GlobalSummary.module.css'
 import CountUp from 'react-countup';
 
-export default function GlobalSummary({ latestInfo = {} }) {
+export default function GlobalSummary({ summary = {} }) {
   return (
     <div className={styles.summary}>
       <div className={styles.header}>
@@ -11,10 +11,10 @@ export default function GlobalSummary({ latestInfo = {} }) {
       </div>
       <div className={styles.infoConfirmed}>
         <div className={styles.confirmed}>
-          <CountUp start={0} end={latestInfo.confirmed || 0} duration={1.5} separator="," />
+          <CountUp start={0} end={summary.confirmed || 0} duration={1.5} separator="," />
         </div>
         <div className={styles.deltaConfirmed}>
-          + <CountUp start={0} end={latestInfo.new_confirmed || 0} duration={1.5} separator="," />
+          + <CountUp start={0} end={summary.new_confirmed || 0} duration={1.5} separator="," />
         </div>
       </div>
       <div className={styles.infoDetail}>
@@ -22,21 +22,21 @@ export default function GlobalSummary({ latestInfo = {} }) {
           <div className={styles.indicatorActive}></div>
           <div className={styles.description}>Active cases:</div>
           <div className={styles.case}>
-            <CountUp start={0} end={latestInfo.active || 0} duration={1.5} separator="," />
+            <CountUp start={0} end={summary.active || 0} duration={1.5} separator="," />
           </div>
         </div>
         <div className={styles.info}>
           <div className={styles.indicatorRecovered}></div>
           <div className={styles.description}>Recovered cases:</div>
           <div className={styles.case}>
-            <CountUp start={0} end={latestInfo.recovered || 0} duration={1.5} separator="," />
+            <CountUp start={0} end={summary.recovered || 0} duration={1.5} separator="," />
           </div>
         </div>
         <div className={styles.info}>
           <div className={styles.indicatorFatal}></div>
           <div className={styles.description}>Fatal cases:</div>
           <div className={styles.case}>
-            <CountUp start={0} end={latestInfo.deaths || 0} duration={1.5} separator="," />
+            <CountUp start={0} end={summary.deaths || 0} duration={1.5} separator="," />
           </div>
         </div>
       </div>
