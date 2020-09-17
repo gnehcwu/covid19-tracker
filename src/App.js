@@ -50,6 +50,10 @@ function App() {
           <div className={styles.countrySelectArea}>
             <CountrySelector countries={trackerData.countries} />
           </div>
+          <div className={styles.footer}>
+            Data from
+            <a className={styles.dataSource} href="https://about-corona.net/" target="_blank" rel="noopener noreferrer">about-corona</a>
+          </div>
         </div>
         <div className={styles.content}>
           <div className={styles.summary}>
