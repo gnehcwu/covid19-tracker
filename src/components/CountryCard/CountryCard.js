@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './CountryCard.module.css'
 import cx from 'classnames'
-import { ACTIONS } from '../../state-manage/reducer'
+import { ACTIONS, Covid19Context } from '../../state-manage'
 
-export default function CountryCard({ country, dispatch, selectedCoutry }) {
+export default function CountryCard({ country }) {
+  const { dispatch, selectedCoutry } = useContext(Covid19Context);
+
   function handleClick() {
     dispatch({ type: ACTIONS.SWITCH_COUNTRY, payload: { country: country.code } })
   }
