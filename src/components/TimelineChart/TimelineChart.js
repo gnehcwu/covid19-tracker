@@ -12,13 +12,13 @@ export default function TimelineChart({ timeline, height }) {
           label: 'Infected',
           borderColor: '#de3700',
           borderWidth: 1,
-          pointStyle: 'dash'
+          pointStyle: 'line'
         }, {
           data: timeline.map(({ deaths }) => deaths),
           label: 'Deaths',
           borderColor: '#00809d',
           borderWidth: 1,
-          pointStyle: 'dash'
+          pointStyle: 'line'
         },
         ],
       }}

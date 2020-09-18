@@ -27,8 +27,8 @@
 }
 
 .logo {
-  height: 10vmin;
-  width: 10vmin;
+  height: 80px;
+  width: 80px;
 }
 
 .logoTitle {
@@ -39,7 +39,9 @@
 
 .countrySelectArea {
   padding: 16px;
-  height: calc(100vh - 240px);
+  padding-bottom: 0;
+  box-sizing: border-box;
+  height: calc(100vh - 206px);
 }
 
 .content {
@@ -64,12 +66,11 @@
 }
 
 .footer {
-  padding: 6px 16px;
   color: #767676;
   position: relative;
   font-size: 13px;
+  padding: 24px 0;
   padding-left: 39px;
-  padding-bottom: 24px;
 }
 
 .footer::before {
@@ -89,7 +90,7 @@
   color: #767676;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-size: 13px;
   font-weight: 600;
   margin-left: 8px;

@@ -34,7 +34,13 @@ export const getGlobalTimeline = async () => {
   try {
     const res = await fetch(destination)
     const { data } = await res.json();
-    return { summary: data[0], timeline: data.filter(item => item.date !== '2020-08-17').reverse() };
+    // Looks like there is something wrong the data on 2020-08-17, filter the day out
+    return {
+      summary: data[0],
+      updated: data[0].updated_at,
+      country: 'Global',
+      timeline: data.filter(item => item.date !== '2020-08-17').reverse()
+    }
   } catch (error) {
     return [];
   }
@@ -46,7 +52,12 @@ export const getTimelineByCountry = async (slug) => {
   try {
     const res = await fetch(destination)
     const { data } = await res.json()
-    return { summary: data.timeline[0], timeline: data.timeline.reverse() }
+    return {
+      summary: data.timeline[0],
+      updated: data.updated_at,
+      country: data.name,
+      timeline: data.timeline.reverse()
+    }
   } catch (error) {
     return {}
   }

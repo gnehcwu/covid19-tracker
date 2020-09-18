@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styles from './GlobalSummary.module.css'
 import CountUp from 'react-countup';
 
-export default function GlobalSummary({ summary = {} }) {
-  const getHumanUpdatedTime = () => {
-    return ((Date.now() - new Date(summary.updated_at)) / (60 * 60 * 1000)).toFixed()
-  }
+export default function GlobalSummary({ summary = {}, updated }) {
+  const getHumanUpdatedTime = useCallback(
+    () => {
+      const updateTime = (((Date.now() - new Date(updated)) / (60 * 1000))).toFixed()
+      if (!updateTime) return 'Updated just now'
+      else if (updateTime < 60) return `Updated ${updateTime} mins ago`
+      else return 'Updated more than an hour ago'
+    },
+    [updated],
+  )
 
   return (
     <div className={styles.summary}>
       <div className={styles.header}>
         <h2 className={styles.title}>Total confirmed cases</h2>
-        <div className={styles.lastUpdate}>Updated {getHumanUpdatedTime() || 0} hours ago</div>
+        <div className={styles.lastUpdate}>{getHumanUpdatedTime()}</div>
       </div>
       <div className={styles.infoConfirmed}>
         <div className={styles.confirmed}>

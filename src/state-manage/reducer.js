@@ -12,16 +12,29 @@ export default function useCovid19Reducer() {
       case ACTIONS.UPDATE_COUTRIES:
         return { ...state, countries: action.payload.countries }
       case ACTIONS.UPDATE_TIMELINE:
-        return { ...state, timeline: action.payload.timeline, summary: action.payload.summary }
+        const { timeline, summary, updated } = action.payload
+        return {
+          ...state,
+          timeline,
+          summary,
+          updated
+        }
       case ACTIONS.SWITCH_COUNTRY:
-        return { ...state, selectedCountry: action.payload.country }
+        const { country: selectedCountry, countryName: selectedCountryName } = action.payload
+        return {
+          ...state,
+          selectedCountry,
+          selectedCountryName
+        }
       default:
         return state
     }
   }
 
   const [trackerData, dispatch] = useReducer(reducer, {
+    updated: Date.now(),
     selectedCountry: 'Global',
+    selectedCountryName: 'Global',
     countries: [],
     summary: {},
     timeline: []

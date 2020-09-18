@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import styles from './App.module.css'
 import { ReactComponent as Logo } from './logo.svg'
@@ -6,19 +6,22 @@ import { useCovid19Reducer, ACTIONS, Covid19Context } from './state-manage'
 import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFlag } from './data-service'
 
 function App() {
-  const [trackerData, dispatch] = useCovid19Reducer();
+  const [trackerData, dispatch] = useCovid19Reducer()
   const [chartHeight, setChartHeight] = useState(0)
   const timelineContainer = useRef(null)
 
   useEffect(() => {
     const fetchTimeline = async () => {
-      let data;
+      let data
       if (trackerData.selectedCountry === 'Global') {
         data = await getGlobalTimeline()
       } else {
         data = await getTimelineByCountry(trackerData.selectedCountry)
       }
-      dispatch({ type: ACTIONS.UPDATE_TIMELINE, payload: { summary: data.summary, timeline: data.timeline } })
+      dispatch({
+        type: ACTIONS.UPDATE_TIMELINE,
+        payload: { summary: data.summary, updated: data.updated, timeline: data.timeline }
+      })
     }
 
     fetchTimeline()
@@ -28,16 +31,25 @@ function App() {
     const fetchCoutries = async () => {
       const data = await getAllCountries()
       // Put global in the front of country list
-      data.unshift({ name: 'Global', code: 'Global', flag: getCountryFlag(), confirmed: trackerData.summary.confirmed })
-      dispatch({ type: ACTIONS.UPDATE_COUTRIES, payload: { countries: data } });
+      data.unshift({
+        name: 'Global',
+        code: 'Global',
+        flag: getCountryFlag(),
+        confirmed: trackerData.summary.confirmed
+      })
+      dispatch({ type: ACTIONS.UPDATE_COUTRIES, payload: { countries: data } })
     }
 
-    fetchCoutries();
+    fetchCoutries()
   }, [trackerData.summary.confirmed, dispatch])
 
   useEffect(() => {
     setChartHeight(timelineContainer.current.clientHeight)
   }, [])
+
+  useEffect(() => {
+    document.title = `Covid-19 ${trackerData.selectedCountryName} | ${trackerData.summary.confirmed}`
+  })
 
   return (
     <Covid19Context.Provider value={{ dispatch: dispatch, selectedCountry: trackerData.selectedCountry }}>
@@ -57,7 +69,7 @@ function App() {
         </div>
         <div className={styles.content}>
           <div className={styles.summary}>
-            <GlobalSummary summary={trackerData.summary} />
+            <GlobalSummary summary={trackerData.summary} updated={trackerData.updated} />
           </div>
           <div className={styles.timeline} ref={timelineContainer}>
             <TimelineChart height={chartHeight} timeline={trackerData.timeline} />
@@ -65,7 +77,7 @@ function App() {
         </div>
       </div>
     </Covid19Context.Provider>
-  );
+  )
 }
 
-export default App;
+export default App
