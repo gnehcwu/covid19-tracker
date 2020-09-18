@@ -15,6 +15,10 @@ function App() {
       let data
       if (trackerData.selectedCountry === 'Global') {
         data = await getGlobalTimeline()
+        dispatch({
+          type: ACTIONS.UPDATE_GLOBAL_CASE,
+          payload: { globalConfirmed: data.summary.confirmed }
+        })
       } else {
         data = await getTimelineByCountry(trackerData.selectedCountry)
       }
@@ -35,13 +39,13 @@ function App() {
         name: 'Global',
         code: 'Global',
         flag: getCountryFlag(),
-        confirmed: trackerData.summary.confirmed
+        confirmed: trackerData.globalConfirmed
       })
       dispatch({ type: ACTIONS.UPDATE_COUTRIES, payload: { countries: data } })
     }
 
     fetchCoutries()
-  }, [trackerData.summary.confirmed, dispatch])
+  }, [trackerData.globalConfirmed, dispatch])
 
   useEffect(() => {
     setChartHeight(timelineContainer.current.clientHeight)

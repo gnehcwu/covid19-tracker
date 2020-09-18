@@ -3,7 +3,8 @@ import { useReducer } from 'react'
 const ACTIONS = {
   UPDATE_COUTRIES: 'update-coutries',
   UPDATE_TIMELINE: 'update_timeline',
-  SWITCH_COUNTRY: 'switch-country'
+  SWITCH_COUNTRY: 'switch-country',
+  UPDATE_GLOBAL_CASE: 'update-global-case'
 }
 
 export default function useCovid19Reducer() {
@@ -26,6 +27,11 @@ export default function useCovid19Reducer() {
           selectedCountry,
           selectedCountryName
         }
+      case ACTIONS.UPDATE_GLOBAL_CASE:
+        return {
+          ...state,
+          globalConfirmed: action.payload.globalConfirmed
+        }
       default:
         return state
     }
@@ -37,7 +43,8 @@ export default function useCovid19Reducer() {
     selectedCountryName: 'Global',
     countries: [],
     summary: {},
-    timeline: []
+    timeline: [],
+    globalConfirmed: 0
   })
 
   return [trackerData, dispatch]
