@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import styles from './App.module.css'
 import { ReactComponent as Logo } from './logo.svg'
@@ -7,7 +7,6 @@ import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFla
 
 function App() {
   const [trackerData, dispatch] = useCovid19Reducer()
-  const [chartHeight, setChartHeight] = useState(0)
   const timelineContainer = useRef(null)
 
   useEffect(() => {
@@ -48,10 +47,6 @@ function App() {
   }, [trackerData.globalConfirmed, dispatch])
 
   useEffect(() => {
-    setChartHeight(timelineContainer.current.clientHeight)
-  }, [])
-
-  useEffect(() => {
     document.title = `Covid-19 ${trackerData.selectedCountryName} | ${trackerData.summary.confirmed}`
   })
 
@@ -76,7 +71,7 @@ function App() {
             <GlobalSummary summary={trackerData.summary} updated={trackerData.updated} />
           </div>
           <div className={styles.timeline} ref={timelineContainer}>
-            <TimelineChart height={chartHeight} timeline={trackerData.timeline} />
+            <TimelineChart container={timelineContainer} timeline={trackerData.timeline} />
           </div>
         </div>
       </div>
