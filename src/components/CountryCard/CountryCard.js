@@ -17,7 +17,7 @@ export default function CountryCard({ country }) {
     <div className={styles.container} onClick={handleClick}>
       <div className={cx(styles.card, country.code === selectedCountry && styles.selected)} tabIndex="0">
         <div className={styles.title}>
-          <span role="img" aria-label="China" className={styles.flag}>{country.flag}</span>
+          <span role="img" aria-label="{country.name}" className={styles.flag}>{country.flag}</span>
           <span className={styles.name}>{country.name}</span>
         </div>
         <div className={styles.confirm}>{country.confirmed}</div>

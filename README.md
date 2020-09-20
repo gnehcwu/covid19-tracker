@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/gnehcwu/covid19-tracker/blob/master/logo.png" alt="Covid-19 Tracker" title="Covid-19 Tracker" width="70px" height="70px"/>
+<img src="https://github.com/gnehcwu/covid19-tracker/blob/master/logo.png" alt="Covid-19 Tracker" title="Covid-19 Tracker" width="80px" height="80px"/>
 </p>
 <h3 align="center">Covid-19 Tracker</h3>
 

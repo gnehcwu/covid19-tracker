@@ -52,8 +52,15 @@ export const getTimelineByCountry = async (slug) => {
   try {
     const res = await fetch(destination)
     const { data } = await res.json()
+    const { confirmed, recovered, deaths } = data.latest_data
     return {
-      summary: data.timeline[0],
+      summary: {
+        confirmed,
+        new_confirmed: data.today.confirmed,
+        active: data.timeline[0].active,
+        recovered,
+        deaths
+      },
       updated: data.updated_at,
       country: data.name,
       timeline: data.timeline.reverse()

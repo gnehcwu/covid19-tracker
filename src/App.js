@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import styles from './App.module.css'
 import { ReactComponent as Logo } from './logo.svg'
+import { CountrySelector, GlobalSummary, TimelineChart } from './components'
 import { useCovid19Reducer, ACTIONS, Covid19Context } from './state-manage'
 import { getAllCountries, getGlobalTimeline, getTimelineByCountry, getCountryFlag } from './data-service'
 
@@ -63,7 +63,9 @@ function App() {
           </div>
           <div className={styles.footer}>
             Data from
-            <a className={styles.dataSource} href="https://about-corona.net/" target="_blank" rel="noopener noreferrer">about-corona</a>
+            <a className={styles.dataSource} href="https://about-corona.net/" target="_blank" rel="noopener noreferrer">
+              about-corona
+            </a>
           </div>
         </div>
         <div className={styles.content}>

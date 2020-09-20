@@ -21,7 +21,7 @@ export default function GlobalSummary({ summary = {}, updated }) {
       </div>
       <div className={styles.infoConfirmed}>
         <div className={styles.confirmed}>
-          <CountUp start={10000000} end={summary.confirmed || 0} duration={0.7} separator="," />
+          <CountUp start={0} end={summary.confirmed || 0} duration={0.7} separator="," />
         </div>
         <div className={styles.deltaConfirmed}>
           + <CountUp start={0} end={summary.new_confirmed || 0} duration={0.7} separator="," />

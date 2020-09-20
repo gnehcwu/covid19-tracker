@@ -37,6 +37,9 @@ export default function TimelineChart({ timeline, container }) {
 
   }, [])
 
+  // Magic numbers:
+  // 768px: mobile layout kicked in
+  // 412px: desktop layout sidebar + content container horizontal padding width
   const responsiveHeight = viewWidth > 768 ? 0 : containerHeight
   const responsiveWidth = viewWidth > 768 ? viewWidth - 412 : viewWidth - 48
 
